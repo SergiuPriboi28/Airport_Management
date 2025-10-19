@@ -16,9 +16,9 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long user_id;
-
-    private Long flight_id;
+//    private Long user_id;
+//
+//    private Long flight_id;
 
     private String pnr;
 
