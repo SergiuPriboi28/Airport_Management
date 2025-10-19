@@ -24,4 +24,17 @@ public class Booking {
 
     @Enumerated(EnumType.STRING)
     private BookingStatus status;
+
+    @ManyToOne
+    @JoinColumn(
+            name = "flight_id"
+    )
+    private Flight flight;
+
+    @ManyToOne
+    @JoinColumn(
+            name = "passenger_id"
+    )
+    private Passenger passenger;
+
 }

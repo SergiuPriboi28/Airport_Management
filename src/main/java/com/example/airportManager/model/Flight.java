@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,7 +20,7 @@ public class Flight {
 
     private String code;
 
-    private Long route_id;
+//    private Long route_id;
 
 //    private Long aircraft_id;
 
@@ -42,4 +44,17 @@ public class Flight {
             name = "route_id"
     )
     private Route route;
+
+    @OneToMany(mappedBy = "flight")
+    private Set<Booking> bookings;
+
+    @ManyToOne
+    @JoinTable(
+            name = "flight_passenger",
+            joinColumns = @JoinColumn(name = "flight_id"),
+            inverseJoinColumns = @JoinColumn(name = "passenger_id")
+    )
+    private Set<Passenger> passengers;
+
+
 }

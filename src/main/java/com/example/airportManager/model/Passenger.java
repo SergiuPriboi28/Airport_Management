@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,5 +26,13 @@ public class Passenger {
     private String loyaltyTier;
 
     private String emergencyContact;
+
+    @ManyToMany(mappedBy = "passengers")
+    private Set<Flight> flights;
+
+    @OneToMany(mappedBy = "passenger")
+    private Set<Booking> bookings;
+
+
 
 }
