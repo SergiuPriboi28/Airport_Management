@@ -1,20 +1,22 @@
 package com.example.airportManager.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Set;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
+@ToString(exclude = {"originRoutes", "destRoutes"})
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 //Airport(id, iata, icao, name, city, country, timezone)
 public class Airport {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long ID;
 
     private String iata;
@@ -29,10 +31,10 @@ public class Airport {
 
     private String timezone;
 
-    @OneToMany(mappedBy = "originAirport")
+    @OneToMany(mappedBy = "originAirport", fetch = FetchType.LAZY)
     private Set<Route> originRoutes;
 
-    @OneToMany(mappedBy = "destAirport")
+    @OneToMany(mappedBy = "destAirport", fetch = FetchType.LAZY)
     private Set<Route> destRoutes;
 
 

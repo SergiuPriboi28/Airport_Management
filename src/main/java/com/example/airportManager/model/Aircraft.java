@@ -1,21 +1,23 @@
 package com.example.airportManager.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Set;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
+@ToString(exclude = {"flights"})
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 //Aircraft(id, tailNumber, model, capacity, seatMapRef, status)
 public class Aircraft {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long ID;
 
     private String tailNumber;

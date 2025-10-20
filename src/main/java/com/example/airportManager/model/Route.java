@@ -1,38 +1,41 @@
 package com.example.airportManager.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Set;
 
 @Entity
+@Table(name = "route",
+        uniqueConstraints = {
+        @UniqueConstraint(name = "route_airports",
+                columnNames = {"origin_airport_id", "dest_airport_id"})
+})
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
+@ToString(exclude = {"flights"})
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 //Route(id, origin_airport_id, dest_airport_id, distanceNm, stdDurationMin)
 public class Route {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long ID;
 
     private int distanceNm;
 
     private int stdDurationMin;
 
-    @ManyToOne
-    @JoinColumn(
-            name = "origin_airport_id"
-    )
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "origin_airport_id")
     private Airport originAirport;
 
-    @ManyToOne
-    @JoinColumn(
-            name = "dest_airport_id"
-    )
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "dest_airport_id")
     private Airport destAirport;
 
-    @OneToMany(mappedBy = "route")
+    @OneToMany(mappedBy = "route", fetch = FetchType.LAZY)
     private Set<Flight> flights;
 }

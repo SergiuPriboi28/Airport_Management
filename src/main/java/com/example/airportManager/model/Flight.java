@@ -1,28 +1,24 @@
 package com.example.airportManager.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Set;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-//Flight(id, code, route_id, aircraft_id, departureScheduled,
-// arrivalScheduled, gate, status: SCHEDULED|BOARDING|DELAYED|CANCELLED|IN_AIR|LANDED)
+@Getter
+@Setter
+@ToString(exclude = {"bookings"})
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Flight {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long ID;
 
     private String code;
-
-//    private Long route_id;
-
-//    private Long aircraft_id;
 
     private String departureScheduled;
 
@@ -33,28 +29,19 @@ public class Flight {
     @Enumerated(EnumType.STRING)
     private FlightStatus status;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "aircraft_id"
     )
     private Aircraft aircraft;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "route_id"
     )
     private Route route;
 
-    @OneToMany(mappedBy = "flight")
+    @OneToMany(mappedBy = "flight", fetch = FetchType.LAZY)
     private Set<Booking> bookings;
-
-    @ManyToOne
-    @JoinTable(
-            name = "flight_passenger",
-            joinColumns = @JoinColumn(name = "flight_id"),
-            inverseJoinColumns = @JoinColumn(name = "passenger_id")
-    )
-    private Set<Passenger> passengers;
-
 
 }

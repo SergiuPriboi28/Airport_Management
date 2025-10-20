@@ -1,21 +1,29 @@
 package com.example.airportManager.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Set;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
+@ToString(exclude = {"bookings"})
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 //PassengerProfile(user_id, docType, docNumber, nationality, loyaltyTier, emergencyContact)
 public class Passenger {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
+
+    private String firstName;
+
+    private String lastName;
+
+    private String email;
 
     private String docType;
 
@@ -27,10 +35,7 @@ public class Passenger {
 
     private String emergencyContact;
 
-    @ManyToMany(mappedBy = "passengers")
-    private Set<Flight> flights;
-
-    @OneToMany(mappedBy = "passenger")
+    @OneToMany(mappedBy = "passenger", fetch = FetchType.LAZY)
     private Set<Booking> bookings;
 
 
