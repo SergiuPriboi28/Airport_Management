@@ -24,8 +24,10 @@ public class Route {
     @EqualsAndHashCode.Include
     private Long ID;
 
+    @Column
     private int distanceNm;
 
+    @Column
     private int stdDurationMin;
 
     @ManyToOne(fetch = FetchType.LAZY)

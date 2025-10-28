@@ -22,8 +22,11 @@ public class PassengerController {
     }
 
     @PostMapping
-    public ResponseEntity<PassengerResponseDTO> create(@RequestBody PassengerCreateDTO passengerCreateDTO){
-        return ResponseEntity.status(HttpStatus.CREATED).body(passengerService.create(passengerCreateDTO));
+    public ResponseEntity<PassengerResponseDTO> create(
+            @RequestBody PassengerCreateDTO passengerCreateDTO){
+
+        return ResponseEntity.status(HttpStatus.CREATED).
+                body(passengerService.create(passengerCreateDTO));
     }
 
 }

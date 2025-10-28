@@ -20,14 +20,19 @@ public class Aircraft {
     @EqualsAndHashCode.Include
     private Long ID;
 
+    @Column
     private String tailNumber;
 
+    @Column
     private String model;
 
+    @Column
     private int capacity;
 
+    @Column
     private String seatMapRef;
 
+    @Column
     private String status;
 
     @OneToMany(mappedBy = "aircraft")

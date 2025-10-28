@@ -19,16 +19,22 @@ public class Airport {
     @EqualsAndHashCode.Include
     private Long ID;
 
+    @Column
     private String iata;
 
+    @Column
     private String icao;
 
+    @Column
     private String name;
 
+    @Column
     private String city;
 
+    @Column
     private String country;
 
+    @Column
     private String timezone;
 
     @OneToMany(mappedBy = "originAirport", fetch = FetchType.LAZY)

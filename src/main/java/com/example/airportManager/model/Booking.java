@@ -17,6 +17,7 @@ public class Booking {
     @EqualsAndHashCode.Include
     private Long id;
 
+    @Column
     private String pnr;
 
     @Enumerated(EnumType.STRING)

@@ -18,12 +18,16 @@ public class Flight {
     @EqualsAndHashCode.Include
     private Long ID;
 
+    @Column
     private String code;
 
+    @Column
     private String departureScheduled;
 
+    @Column
     private String arrivalScheduled;
 
+    @Column
     private String gate;
 
     @Enumerated(EnumType.STRING)

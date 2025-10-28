@@ -2,6 +2,7 @@ package com.example.airportManager.service.impl;
 
 import com.example.airportManager.dto.PassengerCreateDTO;
 import com.example.airportManager.dto.PassengerResponseDTO;
+import com.example.airportManager.dto.PassengerUpdateDTO;
 import com.example.airportManager.mapper.PassengerMapper;
 import com.example.airportManager.model.Passenger;
 import com.example.airportManager.repository.PassengerRepository;
@@ -30,4 +31,10 @@ public class PassengerServiceImpl implements PassengerService {
         return passengerMapper.toResponse(passengerSave);
 
     }
+
+    @Override
+    public PassengerResponseDTO update(Long id, PassengerUpdateDTO passengerUpdateDTO) {
+        return null;
+    }
+
 }
