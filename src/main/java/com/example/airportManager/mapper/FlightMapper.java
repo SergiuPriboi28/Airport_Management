@@ -13,5 +13,4 @@ public interface FlightMapper {
     Flight toEntity(FlightCreateDTO flightCreateDTO);
     FlightResponseDTO toResponse(Flight flight);
     void updateFlightFromDTO(FlightUpdateDTO flightUpdateDTO, @MappingTarget Flight flight);
-
 }
