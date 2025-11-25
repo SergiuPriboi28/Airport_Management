@@ -1,9 +1,8 @@
 package com.example.airportManager.mapper;
 
-import com.example.airportManager.dto.PassengerCreateDTO;
-import com.example.airportManager.dto.PassengerResponseDTO;
+import com.example.airportManager.dto.passenger.PassengerCreateDTO;
+import com.example.airportManager.dto.passenger.PassengerResponseDTO;
 import com.example.airportManager.model.Passenger;
-import com.example.airportManager.service.PassengerService;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

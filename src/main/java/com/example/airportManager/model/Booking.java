@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
+@Table(name = "booking", indexes = {
+        @Index(name = "idx_booking_pnr", columnList = "pnr")
+})
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -17,7 +20,7 @@ public class Booking {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column
+    @Column(unique = true, nullable = false)
     private String pnr;
 
     @Enumerated(EnumType.STRING)

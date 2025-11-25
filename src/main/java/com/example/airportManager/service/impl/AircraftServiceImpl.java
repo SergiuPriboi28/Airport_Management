@@ -1,24 +1,28 @@
 package com.example.airportManager.service.impl;
 
-import com.example.airportManager.dto.AircraftCreateDTO;
-import com.example.airportManager.dto.AircraftResponseDTO;
-import com.example.airportManager.dto.AircraftUpdateDTO;
+import com.example.airportManager.dto.aircraft.AircraftCreateDTO;
+import com.example.airportManager.dto.aircraft.AircraftResponseDTO;
+import com.example.airportManager.dto.aircraft.AircraftUpdateDTO;
 import com.example.airportManager.mapper.AircraftMapper;
 import com.example.airportManager.model.Aircraft;
 import com.example.airportManager.repository.AircraftRepository;
 import com.example.airportManager.service.AircraftService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
-@RequiredArgsConstructor
 public class AircraftServiceImpl implements AircraftService {
 
     private final AircraftRepository aircraftRepository;
     private final AircraftMapper aircraftMapper;
+
+    @Autowired
+    public AircraftServiceImpl(AircraftRepository aircraftRepository, AircraftMapper aircraftMapper) {
+        this.aircraftRepository = aircraftRepository;
+        this.aircraftMapper = aircraftMapper;
+    }
 
     @Override
     public Aircraft getById(Long id) {
@@ -27,12 +31,9 @@ public class AircraftServiceImpl implements AircraftService {
     }
 
     @Override
-    public List<AircraftResponseDTO> getAll(String sortBy, String dir) {
-        Sort.Direction direction = dir.equalsIgnoreCase("desc")
-                ? Sort.Direction.DESC
-                : Sort.Direction.ASC;
-        return aircraftRepository.findAll(Sort.by(direction, sortBy))
-                .stream().map(aircraftMapper::toResponse).toList();
+    public Page<AircraftResponseDTO> getAll(Pageable pageable) {
+        return aircraftRepository.findAll(pageable)
+                .map(aircraftMapper::toResponse);
     }
 
     @Override

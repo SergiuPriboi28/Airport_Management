@@ -1,4 +1,4 @@
-package com.example.airportManager.dto;
+package com.example.airportManager.dto.passenger;
 
 public record PassengerUpdateDTO(
         String firstName,

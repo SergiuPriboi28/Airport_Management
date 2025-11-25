@@ -1,20 +1,32 @@
 package com.example.airportManager.controller;
 
-import com.example.airportManager.dto.FlightCreateDTO;
-import com.example.airportManager.dto.FlightResponseDTO;
-import com.example.airportManager.dto.FlightUpdateDTO;
+import com.example.airportManager.dto.airport.AirportResponseDTO;
+import com.example.airportManager.dto.flight.FlightCreateDTO;
+import com.example.airportManager.dto.flight.FlightResponseDTO;
+import com.example.airportManager.dto.flight.FlightUpdateDTO;
 import com.example.airportManager.model.Flight;
+import com.example.airportManager.model.FlightStatus;
 import com.example.airportManager.service.FlightService;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/flights")
+@Validated
 public class FlightController {
 
     private final FlightService flightService;
@@ -25,11 +37,14 @@ public class FlightController {
     }
 
     @GetMapping
-    public ResponseEntity<List<FlightResponseDTO>> getAll(
-            @RequestParam(defaultValue = "id") String sortBy,
-            @RequestParam(defaultValue = "asc") String dir){
-        List<FlightResponseDTO> flightList = flightService.getAll(sortBy, dir);
-        return ResponseEntity.ok(flightList);
+    public Page<FlightResponseDTO> getAll(
+            @ParameterObject @PageableDefault(sort = "departureScheduled", direction = Sort.Direction.ASC) Pageable pageable,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Optional<LocalDateTime> dateFrom,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Optional<LocalDateTime> dateTo,
+            @RequestParam Optional<Long> routeId,
+            @RequestParam Optional<FlightStatus> status
+    ){
+        return flightService.getAll(pageable, dateFrom, dateTo, routeId, status);
     }
 
     @PostMapping

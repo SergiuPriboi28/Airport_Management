@@ -22,20 +22,20 @@ public class Route {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private Long ID;
+    private Long id;
 
-    @Column
+    @Column(nullable = false)
     private int distanceNm;
 
-    @Column
+    @Column(nullable = false)
     private int stdDurationMin;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "origin_airport_id")
+    @JoinColumn(name = "origin_airport_id", nullable = false)
     private Airport originAirport;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "dest_airport_id")
+    @JoinColumn(name = "dest_airport_id", nullable = false)
     private Airport destAirport;
 
     @OneToMany(mappedBy = "route", fetch = FetchType.LAZY)

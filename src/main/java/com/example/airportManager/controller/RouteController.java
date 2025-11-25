@@ -1,19 +1,28 @@
 package com.example.airportManager.controller;
 
-import com.example.airportManager.dto.RouteCreateDTO;
-import com.example.airportManager.dto.RouteResponseDTO;
+import com.example.airportManager.dto.airport.AirportResponseDTO;
+import com.example.airportManager.dto.route.RouteCreateDTO;
+import com.example.airportManager.dto.route.RouteResponseDTO;
 import com.example.airportManager.model.Route;
 import com.example.airportManager.service.RouteService;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/routes")
+@Validated
 public class RouteController {
 
     private final RouteService routeService;
@@ -24,11 +33,12 @@ public class RouteController {
     }
 
     @GetMapping
-    public ResponseEntity<List<RouteResponseDTO>> getAll(
-            @RequestParam(defaultValue = "id") String sortBy,
-            @RequestParam(defaultValue = "asc") String dir){
-        List<RouteResponseDTO> routeList = routeService.getAll(sortBy, dir);
-        return ResponseEntity.ok(routeList);
+    public Page<RouteResponseDTO> getAll(
+            @ParameterObject @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
+            @RequestParam Optional<Long> originId,
+            @RequestParam Optional<Long> destId
+    ){
+        return routeService.getAll(pageable, originId, destId);
     }
 
     @PostMapping

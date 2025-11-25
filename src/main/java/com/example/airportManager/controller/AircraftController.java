@@ -1,24 +1,33 @@
 package com.example.airportManager.controller;
 
-import com.example.airportManager.dto.AircraftCreateDTO;
-import com.example.airportManager.dto.AircraftResponseDTO;
-import com.example.airportManager.dto.AircraftUpdateDTO;
+import com.example.airportManager.dto.aircraft.AircraftCreateDTO;
+import com.example.airportManager.dto.aircraft.AircraftResponseDTO;
+import com.example.airportManager.dto.aircraft.AircraftUpdateDTO;
+import com.example.airportManager.dto.airport.AirportResponseDTO;
 import com.example.airportManager.model.Aircraft;
 import com.example.airportManager.service.AircraftService;
-import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/aircraft")
+@Validated
 public class AircraftController {
 
     private final AircraftService aircraftService;
+
+    @Autowired
+    public AircraftController(AircraftService aircraftService) {
+        this.aircraftService = aircraftService;
+    }
 
     @GetMapping("/{id}")
     public Aircraft findAircraftById(@PathVariable Long id){
@@ -26,11 +35,10 @@ public class AircraftController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AircraftResponseDTO>> getAll(
-            @RequestParam(defaultValue = "id") String sortBy,
-            @RequestParam(defaultValue = "asc") String dir){
-        List<AircraftResponseDTO> aircraftList = aircraftService.getAll(sortBy, dir);
-        return ResponseEntity.ok(aircraftList);
+    public Page<AircraftResponseDTO> getAll(
+            @ParameterObject @PageableDefault(sort = "name", direction = Sort.Direction.ASC)Pageable pageable
+    ){
+        return aircraftService.getAll(pageable);
     }
 
     @PostMapping

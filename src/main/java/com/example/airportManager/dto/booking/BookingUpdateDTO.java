@@ -1,4 +1,4 @@
-package com.example.airportManager.dto;
+package com.example.airportManager.dto.booking;
 
 import com.example.airportManager.model.BookingStatus;
 

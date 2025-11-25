@@ -1,4 +1,4 @@
-package com.example.airportManager.dto;
+package com.example.airportManager.dto.airport;
 
 public record AirportResponseDTO(
         String iata,

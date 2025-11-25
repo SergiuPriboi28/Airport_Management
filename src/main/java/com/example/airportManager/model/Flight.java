@@ -3,9 +3,13 @@ package com.example.airportManager.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
+@Table(name = "flight", indexes = {
+        @Index(name = "idx_flight_code", columnList = "code")
+})
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -16,7 +20,7 @@ public class Flight {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private Long ID;
+    private Long id;
 
     @Column
     private String code;

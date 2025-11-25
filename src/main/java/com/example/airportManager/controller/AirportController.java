@@ -1,23 +1,33 @@
 package com.example.airportManager.controller;
 
-import com.example.airportManager.dto.AirportCreateDTO;
-import com.example.airportManager.dto.AirportResponseDTO;
-import com.example.airportManager.dto.AirportUpdateDTO;
+import com.example.airportManager.dto.airport.AirportCreateDTO;
+import com.example.airportManager.dto.airport.AirportResponseDTO;
 import com.example.airportManager.model.Airport;
 import com.example.airportManager.service.AirportService;
-import lombok.RequiredArgsConstructor;
+import jakarta.validation.Valid;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
-@RequestMapping("/api/airport")
+@RequestMapping("/api/airports")
+@Validated
 public class AirportController {
-
     private final AirportService airportService;
+
+    @Autowired
+    public AirportController(AirportService airportService) {
+        this.airportService = airportService;
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Airport> findAirportById(@PathVariable Long id){
@@ -25,26 +35,17 @@ public class AirportController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AirportResponseDTO>> getAll(
-            @RequestParam(defaultValue = "id") String sortBy,
-            @RequestParam(defaultValue = "asc") String dir){
-        List<AirportResponseDTO> airportList = airportService.getAll(sortBy, dir);
-        return ResponseEntity.ok(airportList);
+    public Page<AirportResponseDTO> getAll(
+            @ParameterObject @PageableDefault(sort = "name", direction = Sort.Direction.ASC)Pageable pageable
+            ){
+        return airportService.getAll(pageable);
     }
 
     @PostMapping
     public ResponseEntity<AirportResponseDTO> create (
-            @RequestBody AirportCreateDTO airportCreateDTO){
+            @Valid @RequestBody AirportCreateDTO airportCreateDTO){
         return ResponseEntity.status(HttpStatus.CREATED).
                 body(airportService.create(airportCreateDTO));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<AirportResponseDTO> update(
-            @PathVariable Long id,
-            @RequestBody AirportUpdateDTO airportUpdateDTO) {
-        AirportResponseDTO updatedAirport = airportService.update(id, airportUpdateDTO);
-        return ResponseEntity.ok(updatedAirport);
     }
 
     @DeleteMapping("/{id}")

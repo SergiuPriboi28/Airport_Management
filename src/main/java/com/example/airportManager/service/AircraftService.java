@@ -1,16 +1,15 @@
 package com.example.airportManager.service;
 
-import com.example.airportManager.dto.AircraftCreateDTO;
-import com.example.airportManager.dto.AircraftResponseDTO;
-import com.example.airportManager.dto.AircraftUpdateDTO;
+import com.example.airportManager.dto.aircraft.AircraftCreateDTO;
+import com.example.airportManager.dto.aircraft.AircraftResponseDTO;
+import com.example.airportManager.dto.aircraft.AircraftUpdateDTO;
 import com.example.airportManager.model.Aircraft;
-import com.example.airportManager.repository.AircraftRepository;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface AircraftService{
     Aircraft getById(Long id);
-    List<AircraftResponseDTO> getAll(String sortBy, String dir);
+    Page<AircraftResponseDTO> getAll(Pageable pageable);
     AircraftResponseDTO create(AircraftCreateDTO aircraftCreateDTO);
     AircraftResponseDTO update(Long id, AircraftUpdateDTO aircraftUpdateDTO);
     void delete(Long id);

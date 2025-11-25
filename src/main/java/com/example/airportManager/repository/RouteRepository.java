@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RouteRepository extends JpaRepository<Route, Long>,
-        JpaSpecificationExecutor<Route> {
+public interface RouteRepository extends JpaRepository<Route, Long>, JpaSpecificationExecutor<Route> {
+    boolean existsByOriginAirportIdAndDestAirportId(Long originId, Long destId);
+
 }

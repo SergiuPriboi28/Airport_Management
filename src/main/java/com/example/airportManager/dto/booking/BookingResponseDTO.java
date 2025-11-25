@@ -1,11 +1,11 @@
-package com.example.airportManager.dto;
+package com.example.airportManager.dto.booking;
 
 import com.example.airportManager.model.BookingStatus;
 
 public record BookingResponseDTO(
         String pnr,
-        String flight,
-        String passenger,
+        String flightId,
+        String passengerId,
         BookingStatus bookingStatus
 ) {
 }

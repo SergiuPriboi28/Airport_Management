@@ -1,11 +1,9 @@
 package com.example.airportManager.mapper;
 
-import com.example.airportManager.dto.AircraftCreateDTO;
-import com.example.airportManager.dto.AircraftResponseDTO;
-import com.example.airportManager.dto.AircraftUpdateDTO;
-import com.example.airportManager.dto.AirportUpdateDTO;
+import com.example.airportManager.dto.aircraft.AircraftCreateDTO;
+import com.example.airportManager.dto.aircraft.AircraftResponseDTO;
+import com.example.airportManager.dto.aircraft.AircraftUpdateDTO;
 import com.example.airportManager.model.Aircraft;
-import com.example.airportManager.model.Airport;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 

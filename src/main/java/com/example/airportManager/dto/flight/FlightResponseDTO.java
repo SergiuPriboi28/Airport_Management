@@ -1,4 +1,4 @@
-package com.example.airportManager.dto;
+package com.example.airportManager.dto.flight;
 
 import com.example.airportManager.model.FlightStatus;
 
@@ -9,8 +9,8 @@ public record FlightResponseDTO(
         LocalDateTime departureScheduled,
         LocalDateTime arrivalScheduled,
         String gate,
-        String aircraft,
-        String route,
+        String aircraftId,
+        String routeId,
         FlightStatus flightStatus
 ) {
 }

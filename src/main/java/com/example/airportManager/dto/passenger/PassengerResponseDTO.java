@@ -1,14 +1,11 @@
-package com.example.airportManager.dto;
-
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
+package com.example.airportManager.dto.passenger;
 
 public record PassengerResponseDTO(
         String firstName,
         String lastName,
         String email,
         String docType,
-        int docNumber,
+        String docNumber,
         String nationality
 ) {
 }

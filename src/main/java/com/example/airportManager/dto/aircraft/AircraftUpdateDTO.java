@@ -1,4 +1,4 @@
-package com.example.airportManager.dto;
+package com.example.airportManager.dto.aircraft;
 
 public record AircraftUpdateDTO(
         String tailNumber,
