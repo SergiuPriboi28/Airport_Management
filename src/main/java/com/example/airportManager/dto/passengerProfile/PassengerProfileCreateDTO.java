@@ -1,4 +1,4 @@
-package com.example.airportManager.dto.passenger;
+package com.example.airportManager.dto.passengerProfile;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

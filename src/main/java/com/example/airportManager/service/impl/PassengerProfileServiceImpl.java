@@ -1,8 +1,8 @@
 package com.example.airportManager.service.impl;
 
-import com.example.airportManager.dto.passenger.PassengerProfileCreateDTO;
-import com.example.airportManager.dto.passenger.PassengerProfileResponseDTO;
-import com.example.airportManager.dto.passenger.PassengerProfileUpdateDTO;
+import com.example.airportManager.dto.passengerProfile.PassengerProfileCreateDTO;
+import com.example.airportManager.dto.passengerProfile.PassengerProfileResponseDTO;
+import com.example.airportManager.dto.passengerProfile.PassengerProfileUpdateDTO;
 import com.example.airportManager.mapper.PassengerProfileMapper;
 import com.example.airportManager.model.PassengerProfile;
 import com.example.airportManager.repository.PassengerProfileRepository;
@@ -10,7 +10,6 @@ import com.example.airportManager.service.PassengerProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -36,8 +35,12 @@ public class PassengerProfileServiceImpl implements PassengerProfileService {
     }
 
     @Override
-    public PassengerProfileResponseDTO update(Long id, PassengerProfileUpdateDTO passengerProfileUpdateDTO) {
-        return null;
+    public PassengerProfileResponseDTO update(UUID id, PassengerProfileUpdateDTO passengerProfileUpdateDTO) {
+        PassengerProfile oldProfile = passengerProfileRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("No Passenger Profile Found!"));
+        passengerProfileMapper.updatePassengerProfileFromDTO(passengerProfileUpdateDTO, oldProfile);
+        PassengerProfile updatedPassengerProfile = passengerProfileRepository.save(oldProfile);
+        return passengerProfileMapper.toResponse(updatedPassengerProfile);
     }
 
 }

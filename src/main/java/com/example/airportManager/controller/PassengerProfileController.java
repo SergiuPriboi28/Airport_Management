@@ -1,7 +1,8 @@
 package com.example.airportManager.controller;
 
-import com.example.airportManager.dto.passenger.PassengerProfileCreateDTO;
-import com.example.airportManager.dto.passenger.PassengerProfileResponseDTO;
+import com.example.airportManager.dto.passengerProfile.PassengerProfileCreateDTO;
+import com.example.airportManager.dto.passengerProfile.PassengerProfileResponseDTO;
+import com.example.airportManager.dto.passengerProfile.PassengerProfileUpdateDTO;
 import com.example.airportManager.model.PassengerProfile;
 import com.example.airportManager.service.PassengerProfileService;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,14 @@ public class PassengerProfileController {
 
         return ResponseEntity.status(HttpStatus.CREATED).
                 body(passengerProfileService.create(passengerProfileCreateDTO));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PassengerProfileResponseDTO> update(
+            @PathVariable UUID id,
+            @RequestBody PassengerProfileUpdateDTO dto) {
+        PassengerProfileResponseDTO updatedPassenger = passengerProfileService.update(id, dto);
+        return ResponseEntity.ok(updatedPassenger);
     }
 
 }
