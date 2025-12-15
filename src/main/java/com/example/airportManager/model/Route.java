@@ -1,6 +1,8 @@
 package com.example.airportManager.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.Set;
@@ -25,15 +27,19 @@ public class Route {
     private Long id;
 
     @Column(nullable = false)
+    @Min(value = 1, message = "Distance must be a positive value.")
     private int distanceNm;
 
     @Column(nullable = false)
+    @Min(value = 1, message = "Duration must be a positive value.")
     private int stdDurationMin;
 
+    @NotNull(message = "Origin airport ID is required.")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "origin_airport_id", nullable = false)
     private Airport originAirport;
 
+    @NotNull(message = "Destination airport ID is required.")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dest_airport_id", nullable = false)
     private Airport destAirport;

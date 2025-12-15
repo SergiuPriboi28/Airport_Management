@@ -1,7 +1,11 @@
 package com.example.airportManager.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -23,13 +27,17 @@ public class Flight {
     private Long id;
 
     @Column
+    @NotBlank(message = "Flight code is required.")
+    @Size(min = 4, max = 8, message = "Flight code must be between 4 and 8 characters.")
     private String code;
 
     @Column
-    private String departureScheduled;
+//    @NotBl(message = "Departure scheduled time is required.")
+    private LocalDateTime departureScheduled;
 
     @Column
-    private String arrivalScheduled;
+//    @NotNull(message = "Arrival scheduled time is required.")
+    private LocalDateTime arrivalScheduled;
 
     @Column
     private String gate;
@@ -37,12 +45,14 @@ public class Flight {
     @Enumerated(EnumType.STRING)
     private FlightStatus status;
 
+//    @NotBlank(message = "Aircraft ID is required.")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "aircraft_id"
     )
     private Aircraft aircraft;
 
+    @NotNull(message = "Route ID is required.")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "route_id"

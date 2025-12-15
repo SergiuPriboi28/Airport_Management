@@ -77,7 +77,7 @@ public class FlightServiceImpl implements FlightService {
 
         Flight flight = flightMapper.toEntity(flightCreateDTO);
         flight.setRoute(route);
-
+        flight.setAircraft(aircraftRepository.findById(1L).orElseThrow(()-> new RuntimeException("No aircraft with id 1: exists!")));
         Flight flightSave = flightRepository.save(flight);
         return flightMapper.toResponse(flightSave);
     }
@@ -107,8 +107,8 @@ public class FlightServiceImpl implements FlightService {
 
         oldFlight.setCode(flightUpdateDTO.code());
         oldFlight.setRoute(route);
-        oldFlight.setDepartureScheduled(String.valueOf(flightUpdateDTO.departureScheduled()));
-        oldFlight.setArrivalScheduled(String.valueOf(flightUpdateDTO.arrivalScheduled()));
+        oldFlight.setDepartureScheduled(flightUpdateDTO.departureScheduled());
+        oldFlight.setArrivalScheduled(flightUpdateDTO.arrivalScheduled());
         oldFlight.setGate(flightUpdateDTO.gate());
         oldFlight.setAircraft(aircraft);
         oldFlight.setStatus(flightUpdateDTO.flightStatus());

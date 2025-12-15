@@ -1,6 +1,7 @@
 package com.example.airportManager.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
@@ -24,8 +25,10 @@ public class Booking {
     private String pnr;
 
     @Enumerated(EnumType.STRING)
+    @NotNull
     private BookingStatus status;
 
+    @NotNull(message = "Flight ID is required.")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "flight_id"
@@ -33,9 +36,7 @@ public class Booking {
     private Flight flight;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(
-            name = "passenger_id"
-    )
-    private Passenger passenger;
+    @JoinColumn(name = "passenger_profile_id", nullable = false)
+    private PassengerProfile passengerProfile;
 
 }

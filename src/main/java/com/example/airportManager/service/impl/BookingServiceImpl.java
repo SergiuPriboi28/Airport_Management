@@ -6,10 +6,10 @@ import com.example.airportManager.dto.booking.BookingUpdateDTO;
 import com.example.airportManager.mapper.BookingMapper;
 import com.example.airportManager.model.Booking;
 import com.example.airportManager.model.Flight;
-import com.example.airportManager.model.Passenger;
+import com.example.airportManager.model.PassengerProfile;
 import com.example.airportManager.repository.BookingRepository;
 import com.example.airportManager.repository.FlightRepository;
-import com.example.airportManager.repository.PassengerRepository;
+import com.example.airportManager.repository.PassengerProfileRepository;
 import com.example.airportManager.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,7 +27,7 @@ public class BookingServiceImpl implements BookingService {
 
     private final BookingRepository bookingRepository;
     private final BookingMapper bookingMapper;
-    private final PassengerRepository passengerRepository;
+    private final PassengerProfileRepository passengerProfileRepository;
     private final FlightRepository flightRepository;
 
     @Override
@@ -48,7 +48,7 @@ public class BookingServiceImpl implements BookingService {
     @Transactional
     public BookingResponseDTO create(BookingCreateDTO bookingCreateDTO) {
 
-        Passenger passenger = passengerRepository.findById(bookingCreateDTO.passengerId())
+        PassengerProfile passengerProfile = passengerProfileRepository.findById(bookingCreateDTO.passengerId())
                 .orElseThrow(() -> new RuntimeException("Passenger with id: "
                         + bookingCreateDTO.passengerId()
                         + " does not exist"));
@@ -60,7 +60,7 @@ public class BookingServiceImpl implements BookingService {
 
         Booking booking = bookingMapper.toEntity(bookingCreateDTO);
 
-        booking.setPassenger(passenger);
+        booking.setPassengerProfile(passengerProfile);
         booking.setFlight(flight);
         booking.setPnr(generatePNR());
 

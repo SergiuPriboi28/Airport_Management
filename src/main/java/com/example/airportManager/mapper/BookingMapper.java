@@ -12,15 +12,15 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = "spring")
 public interface BookingMapper {
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "passenger", ignore = true)
+    @Mapping(target = "passengerProfile", ignore = true)
     @Mapping(target = "flight", ignore = true)
     @Mapping(target = "pnr", ignore = true) //
     Booking toEntity(BookingCreateDTO bookingCreateDTO);
 
-    @Mapping(target = "passengerId", source = "passenger.id")
+    @Mapping(target = "passengerId", source = "passengerProfile.userId")
     @Mapping(target = "flightId", source = "flight.id")
     BookingResponseDTO toResponse(Booking booking);
     @Mapping(target = "flight", ignore = true)
-    @Mapping(target = "passenger", ignore = true)
+    @Mapping(target = "passengerProfile", ignore = true)
     void updateBookingFromDto(BookingUpdateDTO bookingUpdateDTO, @MappingTarget Booking booking);
 }

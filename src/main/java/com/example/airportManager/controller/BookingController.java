@@ -23,6 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/bookings")
 @Validated
+@CrossOrigin(origins = "http://localhost:4200")
 public class BookingController {
 
     private final BookingService bookingService;
@@ -34,7 +35,7 @@ public class BookingController {
 
     @GetMapping
     public Page<BookingResponseDTO> getAll(
-            @ParameterObject @PageableDefault(sort = "name", direction = Sort.Direction.ASC) Pageable pageable
+            @ParameterObject @PageableDefault(sort = "pnr", direction = Sort.Direction.ASC) Pageable pageable
     ){
         return bookingService.getAll(pageable);
     }
@@ -44,14 +45,6 @@ public class BookingController {
             @RequestBody BookingCreateDTO bookingCreateDTO){
         return ResponseEntity.status(HttpStatus.CREATED).
                 body(bookingService.create(bookingCreateDTO));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<BookingResponseDTO> update(
-            @PathVariable Long id,
-            @RequestBody BookingUpdateDTO bookingUpdateDTO) {
-        BookingResponseDTO updatedBooking = bookingService.update(id, bookingUpdateDTO);
-        return ResponseEntity.ok(updatedBooking);
     }
 
     @DeleteMapping("/{id}")

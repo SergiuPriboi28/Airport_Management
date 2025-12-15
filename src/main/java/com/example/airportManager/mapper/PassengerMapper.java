@@ -1,12 +1,12 @@
-package com.example.airportManager.mapper;
-
-import com.example.airportManager.dto.passenger.PassengerCreateDTO;
-import com.example.airportManager.dto.passenger.PassengerResponseDTO;
-import com.example.airportManager.model.Passenger;
-import org.mapstruct.Mapper;
-
-@Mapper(componentModel = "spring")
-public interface PassengerMapper {
-    Passenger toEntity(PassengerCreateDTO passengerCreateDTO);
-    PassengerResponseDTO toResponse(Passenger passenger);
-}
+//package com.example.airportManager.mapper;
+//
+//import com.example.airportManager.dto.passenger.PassengerProfileCreateDTO;
+//import com.example.airportManager.dto.passenger.PassengerProfileResponseDTO;
+//import com.example.airportManager.model.Passenger;
+//import org.mapstruct.Mapper;
+//
+//@Mapper(componentModel = "spring")
+//public interface PassengerMapper {
+//    Passenger toEntity(PassengerProfileCreateDTO passengerProfileCreateDTO);
+//    PassengerProfileResponseDTO toResponse(Passenger passenger);
+//}

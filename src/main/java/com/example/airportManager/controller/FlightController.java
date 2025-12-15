@@ -27,6 +27,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RequestMapping("/api/flights")
 @Validated
+@CrossOrigin(origins = "http://localhost:4200")
 public class FlightController {
 
     private final FlightService flightService;

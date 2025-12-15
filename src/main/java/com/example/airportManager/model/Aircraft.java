@@ -28,11 +28,11 @@ public class Aircraft {
     private Long id;
 
     @Column
-    @NotBlank(message = "Tail number is required.")
+//    @NotBlank(message = "Tail number is required.")
     private String tailNumber;
 
     @Column
-    @NotBlank(message = "Model is required.")
+//    @NotBlank(message = "Model is required.")
     private String model;
 
     @Column
@@ -42,11 +42,11 @@ public class Aircraft {
     private int capacity;
 
     @Column
-    @NotBlank(message = "Seat map reference is required.")
+//    @NotBlank(message = "Seat map reference is required.")
     private String seatMapRef;
 
     @Column
-    @NotBlank(message = "Status is required.")
+//    @NotBlank(message = "Status is required.")
     private String status;
 
     @OneToMany(mappedBy = "aircraft")

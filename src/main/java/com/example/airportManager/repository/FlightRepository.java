@@ -10,5 +10,4 @@ import java.util.Optional;
 @Repository
 public interface FlightRepository extends JpaRepository<Flight, Long>, JpaSpecificationExecutor<Flight> {
     Optional<Flight> findByCode(String code);
-
 }

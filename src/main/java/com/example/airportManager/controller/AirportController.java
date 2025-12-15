@@ -21,6 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/airports")
 @Validated
+@CrossOrigin(origins = "http://localhost:4200")
 public class AirportController {
     private final AirportService airportService;
 
@@ -47,6 +48,8 @@ public class AirportController {
         return ResponseEntity.status(HttpStatus.CREATED).
                 body(airportService.create(airportCreateDTO));
     }
+
+//    add update method
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){

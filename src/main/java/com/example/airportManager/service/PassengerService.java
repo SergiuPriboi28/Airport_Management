@@ -1,12 +1,13 @@
-package com.example.airportManager.service;
-
-import com.example.airportManager.dto.passenger.PassengerCreateDTO;
-import com.example.airportManager.dto.passenger.PassengerResponseDTO;
-import com.example.airportManager.dto.passenger.PassengerUpdateDTO;
-import com.example.airportManager.model.Passenger;
-
-public interface PassengerService {
-    Passenger getByID(Long id);
-    PassengerResponseDTO create(PassengerCreateDTO passengerCreateDTO);
-    PassengerResponseDTO update(Long id, PassengerUpdateDTO passengerUpdateDTO);
-}
+//package com.example.airportManager.service;
+//
+//import com.example.airportManager.dto.passenger.PassengerProfileCreateDTO;
+//import com.example.airportManager.dto.passenger.PassengerProfileResponseDTO;
+//import com.example.airportManager.dto.passenger.PassengerProfileUpdateDTO;
+//import com.example.airportManager.model.PassengerProfile;
+//import com.example.airportManager.model.PassengerProfile;
+//
+//public interface PassengerService {
+//    PassengerProfile getByID(Long id);
+//    PassengerProfileResponseDTO create(PassengerProfileCreateDTO passengerProfileCreateDTO);
+//    PassengerProfileResponseDTO update(Long id, PassengerProfileUpdateDTO passengerProfileUpdateDTO);
+//}
