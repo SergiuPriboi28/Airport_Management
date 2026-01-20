@@ -10,6 +10,7 @@ import com.example.airportManager.repository.UserRepository;
 import com.example.airportManager.service.UserService;
 import com.example.airportManager.spec.UserSpecifications;
 import lombok.RequiredArgsConstructor;
+import org.mapstruct.control.MappingControl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -53,17 +54,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDTO create(UserCreateDTO userCreateDTO) {
-
-        return null;
+        User userSave = userRepository.save(userMapper.toEntity(userCreateDTO));
+        return userMapper.toResponse(userSave);
     }
 
     @Override
     public UserResponseDTO update(UUID id, UserUpdateDTO userUpdateDTO) {
-        return null;
+        User oldUser = userRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("No User found!"));
+        userMapper.updateUserFromDTO(userUpdateDTO, oldUser);
+        User updatedUser = userRepository.save(oldUser);
+        return userMapper.toResponse(updatedUser);
     }
 
     @Override
     public void delete(UUID id) {
-
+        userRepository.deleteById(id);
     }
 }
