@@ -1,0 +1,4 @@
+package com.example.airportManager.dto.generals;
+
+public record UserRequestDTO() {
+}

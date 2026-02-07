@@ -1,10 +1,12 @@
 package com.example.airportManager.spec;
 
+import com.example.airportManager.model.Airport;
 import com.example.airportManager.model.Flight;
 import com.example.airportManager.model.FlightStatus;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 public final class FlightSpecifications {
 
@@ -29,6 +31,15 @@ public final class FlightSpecifications {
 
     public static Specification<Flight> hasStatus(FlightStatus status) {
         return (root, query, cb) -> status == null ? null : cb.equal(root.get("status"), status);
+    }
+
+    public static Specification<Flight> hasOrigin(Airport origin){
+        return (root, query, cb) -> origin == null ? null : cb.equal(root.get("route").get("originAirport"), origin);
+    }
+
+    public static Specification<Flight> hasDest(Airport dest){
+        return( root, query, cb) -> dest == null ? null :  cb.equal(root.get("route").get("destAirport"), dest);
+
     }
 
 }

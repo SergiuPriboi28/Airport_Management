@@ -1,19 +1,15 @@
 package com.example.airportManager.service.impl;
 
-import com.example.airportManager.dto.flight.FlightCreateDTO;
-import com.example.airportManager.dto.flight.FlightResponseDTO;
-import com.example.airportManager.dto.flight.FlightUpdateDTO;
+import com.example.airportManager.dto.flight.*;
 import com.example.airportManager.exception.ConflictException;
 import com.example.airportManager.mapper.FlightMapper;
-import com.example.airportManager.model.Aircraft;
-import com.example.airportManager.model.Flight;
-import com.example.airportManager.model.FlightStatus;
-import com.example.airportManager.model.Route;
+import com.example.airportManager.model.*;
 import com.example.airportManager.repository.AircraftRepository;
 import com.example.airportManager.repository.FlightRepository;
 import com.example.airportManager.repository.RouteRepository;
 import com.example.airportManager.service.FlightService;
 import com.example.airportManager.spec.FlightSpecifications;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,8 +18,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.time.LocalTime;
 
 @Service
 @RequiredArgsConstructor
@@ -122,4 +120,76 @@ public class FlightServiceImpl implements FlightService {
     public void delete(Long id) {
         flightRepository.deleteById(id);
     }
+
+    @Override
+    public FlightResponseDTO searchFlights(LocalDate departureDate,
+                                                 LocalDate returnDate,
+                                                 FlightType flightType,
+                                                 Optional<Long> routeId,
+                                                 Optional<FlightStatus> status) {
+
+        LocalDateTime departureStart = departureDate.atStartOfDay();
+//        LocalDateTime departureEnd = returnDate.atTime(LocalTime.MAX);
+        LocalDateTime departureEnd = departureDate.atTime(LocalTime.MAX);
+
+
+        Specification<Flight> flightBetweenDeparture = FlightSpecifications.departureBetween(departureStart, departureEnd);
+
+        Specification<Flight> departSpec = flightBetweenDeparture;
+
+        if (routeId.isPresent()) {
+            departSpec = departSpec.and(FlightSpecifications.hasRouteId(routeId.get()));
+        }
+
+        if (status.isPresent()) {
+            departSpec = departSpec.and(FlightSpecifications.hasStatus(status.get()));
+        }
+
+        List<FlightResponseDTO> departureFlights = flightRepository.findAll(departSpec)
+                .stream().map(flightMapper::toResponse).toList();
+
+        if (flightType == FlightType.RETURN){
+            if (routeId.isEmpty()){
+                throw new RuntimeException("A valid routeId has to be provided for return flights!");
+            }
+
+            Route route = routeRepository.findById(routeId.get())
+                    .orElseThrow(() ->
+                            new RuntimeException("No route found based on provided route ID"));
+
+            Airport ReturnOriginAirport = route.getDestAirport();
+            Airport ReturnDestAirport = route.getOriginAirport();
+
+            LocalDateTime returnStart = returnDate.atStartOfDay();
+            LocalDateTime returnEnd = returnDate.atTime(LocalTime.MAX);
+
+            Specification<Flight> flightBetweenReturn = FlightSpecifications.departureBetween(returnStart, returnEnd);
+
+            Specification<Flight> returnSpec = flightBetweenReturn;
+
+            returnSpec = returnSpec.
+                    and(FlightSpecifications.hasOrigin(ReturnOriginAirport)).
+                    and(FlightSpecifications.hasDest(ReturnDestAirport));
+
+            if (status.isPresent()) {
+                returnSpec = returnSpec.and(FlightSpecifications.hasStatus(status.get()));
+            }
+
+            List<FlightResponseDTO> returnFlights = flightRepository.findAll(returnSpec)
+                    .stream().map(flightMapper::toResponse).toList();
+
+            if (returnFlights.isEmpty()){
+                throw new EntityNotFoundException("There are no return flights for the specified date/route!");
+            }
+
+        }
+
+//       1. Fetch me all departure flights and map to DTOs
+//       2. Check FlightType and populate return flights if flight type is "return"
+//       3. If return flight has a route specified, locate its reversed (instead of origin-dest -> dest-origin)
+//       4. If there is no return flight available, show error msg ("No ret flight available...")
+//       5. If there is a flight available, show the result
+        return null;
+    }
+
 }

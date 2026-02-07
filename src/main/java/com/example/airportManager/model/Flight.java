@@ -32,11 +32,11 @@ public class Flight {
     private String code;
 
     @Column
-//    @NotBl(message = "Departure scheduled time is required.")
+//    @NotBlank(message = "Departure scheduled time is required.")
     private LocalDateTime departureScheduled;
 
     @Column
-//    @NotNull(message = "Arrival scheduled time is required.")
+//    @NotBlank(message = "Arrival scheduled time is required.")
     private LocalDateTime arrivalScheduled;
 
     @Column
