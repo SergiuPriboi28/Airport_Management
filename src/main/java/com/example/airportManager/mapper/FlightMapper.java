@@ -3,6 +3,7 @@ package com.example.airportManager.mapper;
 
 import com.example.airportManager.dto.flight.FlightCreateDTO;
 import com.example.airportManager.dto.flight.FlightResponseDTO;
+import com.example.airportManager.dto.flight.FlightSearchResponseDTO;
 import com.example.airportManager.dto.flight.FlightUpdateDTO;
 import com.example.airportManager.model.Flight;
 import org.mapstruct.Mapper;

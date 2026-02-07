@@ -122,7 +122,7 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public FlightResponseDTO searchFlights(LocalDate departureDate,
+    public FlightSearchResponseDTO searchFlights(LocalDate departureDate,
                                                  LocalDate returnDate,
                                                  FlightType flightType,
                                                  Optional<Long> routeId,
@@ -181,6 +181,8 @@ public class FlightServiceImpl implements FlightService {
             if (returnFlights.isEmpty()){
                 throw new EntityNotFoundException("There are no return flights for the specified date/route!");
             }
+
+            return new FlightSearchResponseDTO(departureFlights, returnFlights);
 
         }
 
