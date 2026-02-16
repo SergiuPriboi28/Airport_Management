@@ -1,9 +1,7 @@
 package com.example.airportManager.controller;
 
 import com.example.airportManager.dto.airport.AirportResponseDTO;
-import com.example.airportManager.dto.flight.FlightCreateDTO;
-import com.example.airportManager.dto.flight.FlightResponseDTO;
-import com.example.airportManager.dto.flight.FlightUpdateDTO;
+import com.example.airportManager.dto.flight.*;
 import com.example.airportManager.model.Flight;
 import com.example.airportManager.model.FlightStatus;
 import com.example.airportManager.service.FlightService;
@@ -19,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -67,6 +66,27 @@ public class FlightController {
     public ResponseEntity<Void> delete(@PathVariable Long id){
         flightService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+
+    @GetMapping("/search")
+    public ResponseEntity<FlightSearchResponseDTO> searchFlights(
+            @RequestParam LocalDate departureDate,
+            @RequestParam(required = false) LocalDate returnDate,
+            @RequestParam FlightType flightType,
+            @RequestParam Optional<Long> routeId,
+            @RequestParam Optional<FlightStatus> status
+    ) {
+
+        FlightSearchResponseDTO results = flightService.searchFlights(
+                departureDate,
+                returnDate,
+                flightType,
+                routeId,
+                status
+        );
+
+        return ResponseEntity.ok(results);
     }
 
 }
